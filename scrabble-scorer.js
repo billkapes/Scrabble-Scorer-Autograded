@@ -35,35 +35,37 @@ let userWord = '';
 function initialPrompt() {
    console.log("Let's play some scrabble!\n");
    userWord = input.question("Enter a word to score: ");
-   //console.log('\n' + oldScrabbleScorer(userWord));
 };
 
 let newPointStructure;
 
-let simpleScorer = {
+let simpleScorer = function(word) {
+   return word.length;
+
+}
+let simpleScoreAlgo = {
    name: "Simple Score",
    description: "Each letter is worth 1 point",
-   scorerFunction: function(word) {
-      return word.length;
-   } 
+   scorerFunction: simpleScorer
 };
 
-let vowelBonusScorer = {
+let vowelBonusScorer = function(word) {
+   word = word.toLowerCase();
+   let vowels = ['a','e','i','o','u'];
+   let score = 0;
+   for (let i = 0; i < word.length; i++) {
+      if (vowels.includes(word[i])) {
+         score += 3;
+      } else {
+         score++;
+      }
+   }
+   return score;
+}
+let vowelBonusScorerAlgo = {
    name: "Bonus Vowels",
    description: "Vowels are 3 pts, consonants are 1 pt.",
-   scorerFunction: function(word) {
-      word = word.toLowerCase();
-      let vowels = ['a','e','i','o','u'];
-      let score = 0;
-      for (let i = 0; i < word.length; i++) {
-         if (vowels.includes(word[i])) {
-            score += 3;
-         } else {
-            score++;
-         }
-      }
-      return score;
-   }
+   scorerFunction: vowelBonusScorer
 };
 
 let scrabbleScorer = {
@@ -72,7 +74,7 @@ let scrabbleScorer = {
    scorerFunction: oldScrabbleScorer
 }
 
-const scoringAlgorithms = [simpleScorer, vowelBonusScorer, scrabbleScorer];
+const scoringAlgorithms = [simpleScoreAlgo, vowelBonusScorerAlgo, scrabbleScorer];
 
 function scorerPrompt() {
    console.log('Which scoring algorithm would you like to use?\n');
