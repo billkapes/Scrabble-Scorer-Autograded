@@ -23,6 +23,7 @@ function transform(oldStructure) {
 };
 
 let newPointStructure = transform(oldPointStructure);
+newPointStructure[' '] = 0;
 
 let userWord = '';
 
@@ -84,7 +85,10 @@ function scorerPrompt() {
       console.log(`${i} - ${scoringAlgorithms[i].name}: ${scoringAlgorithms[i].description}`);
    }
    let scoreChoice = input.question("Enter 0, 1, or 2: ");
-   return scoringAlgorithms[scoreChoice];
+   while (![0, 1, 2].includes(Number(scoreChoice))) {
+      scoreChoice = input.question("Invalid choice. Please enter 0, 1, or 2: ");
+   }
+   return scoringAlgorithms[Number(scoreChoice)];
 }
 
 function runProgram() {
