@@ -91,9 +91,14 @@ function scorerPrompt() {
    return scoringAlgorithms[Number(scoreChoice)];
 }
 
+let playAgainChoice = 'y';
 function runProgram() {
-   initialPrompt();
-   console.log(`Score for '${userWord}': ${scorerPrompt().scorerFunction(userWord)}`);
+   while (playAgainChoice === 'y') {
+      initialPrompt();
+      console.log(`Score for '${userWord}': ${scorerPrompt().scorerFunction(userWord)}\n`);
+      playAgainChoice = input.question("Would you like to score another word? Enter y or n: ");
+   }
+   console.log("Thanks for playing!");
 }
 
 module.exports = {
